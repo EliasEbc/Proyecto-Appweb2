@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gastos Hormiga</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Total gastado: ${{ total }}</h2>
+
+    <h3>Gráfica de gastos (ejemplo)</h3>
+    <canvas id="gastosChart" width="400" height="200"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('gastosChart').getContext('2d');
+        const gastosChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'],
+                datasets: [{
+                    label: 'Gastos en MXN',
+                    data: [150, 180, 90, 160, 120],
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+    <!-- Gráfica de gastos -->
+    <h3>Gráfica de gastos (ejemplo)</h3>
+    <canvas id="gastosChart" width="400" height="200"></canvas>
+    <script>
+        const ctx = document.getElementById('gastosChart').getContext('2d');
+        const gastosChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'],
+                datasets: [{
+                    label: 'Gastos en MXN',
+                    data: [150, 200, 100, 250, 180],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <h1>Registrar Gasto</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="descripcion" placeholder="Descripción" required>
+        <input type="number" step="0.01" name="cantidad" placeholder="Cantidad" required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <h2>Historial de gastos</h2>
+    <ul>
+        {% for gasto in gastos %}
+            <li>{{ gasto.fecha|date:"d/m/Y H:i" }} - {{ gasto.descripcion }}: ${{ gasto.cantidad }}</li>
+        {% empty %}
+            <li>No hay gastos registrados aún.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
